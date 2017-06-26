@@ -2107,6 +2107,8 @@ var MovieCard = function (_Component) {
   _createClass(MovieCard, [{
     key: 'render',
     value: function render() {
+      var movieGengres = this.props.movie.genres.join(' | ');
+
       return _react2.default.createElement(
         'div',
         { className: 'animated fadeIn' },
@@ -2136,7 +2138,7 @@ var MovieCard = function (_Component) {
               'small',
               null,
               'Genres: ',
-              this.props.movie.genres
+              movieGengres
             ),
             _react2.default.createElement('br', null),
             _react2.default.createElement(
