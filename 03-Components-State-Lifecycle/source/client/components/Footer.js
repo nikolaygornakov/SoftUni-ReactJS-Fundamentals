@@ -37,7 +37,7 @@ export default class Footer extends Component {
   render () {
     let mostRecentMovies = this.state.mostRecentMovies.map(movie => {
       return (
-        <li key='movie._id'>
+        <li key={movie._id}>
           <Link to='/...'>{movie.name}</Link>
         </li>
       )
@@ -49,7 +49,7 @@ export default class Footer extends Component {
           <div className='row'>
             <div className='col-sm-5'>
               <h3 className='lead'>
-                <strong> Information</strong> and
+                <strong>Information</strong> and
                 <strong> Copyright</strong>
               </h3>
               <p>

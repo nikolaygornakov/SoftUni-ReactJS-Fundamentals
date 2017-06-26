@@ -1464,7 +1464,7 @@ var Footer = function (_Component) {
       var mostRecentMovies = this.state.mostRecentMovies.map(function (movie) {
         return _react2.default.createElement(
           'li',
-          { key: 'movie._id' },
+          { key: movie._id },
           _react2.default.createElement(
             _reactRouter.Link,
             { to: '/...' },
@@ -1491,7 +1491,7 @@ var Footer = function (_Component) {
                 _react2.default.createElement(
                   'strong',
                   null,
-                  ' Information'
+                  'Information'
                 ),
                 ' and',
                 _react2.default.createElement(
