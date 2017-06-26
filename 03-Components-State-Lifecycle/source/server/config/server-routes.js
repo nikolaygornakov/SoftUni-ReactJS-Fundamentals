@@ -1,7 +1,6 @@
 const controllers = require('../controllers')
 
 module.exports = (app) => {
-
   // User routes
   app.post('/user/register', controllers.user.register.post)
   app.post('/user/login', controllers.user.login.post)

@@ -20,8 +20,8 @@ module.exports = {
   },
   topTen: {
     get: (req, res) => {
-      Movie.find()
-        .sort({ score: -1 })
+      Movie.find({})
+        .sort('-score')
         .limit(10)
         .then(movies => {
           if (!movies) {
@@ -35,7 +35,7 @@ module.exports = {
   fiveRecent: {
     get: (req, res) => {
       Movie.find()
-        .sort({ dateCreated: -1 })
+        .sort('-dateCreated')
         .limit(5)
         .then(movies => {
           if (!movies) {
@@ -77,7 +77,7 @@ module.exports = {
           console.log('[Movie controller] gerUserRated() votes: ', votes)
           // Check if necessary.
           let movies = []
-          votes.forEach(v => movies.push(v.movie)); // Filter only the movies, since we don't need vote information.
+          votes.forEach(v => movies.push(v.movie)) // Filter only the movies, since we don't need vote information.
 
           res.status(200).send(movies)
         })
