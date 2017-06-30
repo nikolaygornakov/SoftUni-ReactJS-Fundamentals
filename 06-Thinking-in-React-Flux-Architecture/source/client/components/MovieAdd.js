@@ -114,7 +114,7 @@ export default class AddMovie extends Component {
                         id='sci-fi'
                         value='Sci-fi'
                         checked={this.state.genres.indexOf('Sci-fi') !== -1}
-                        onClick={this.handleGenresChange.bind(this)} />
+                        onClick={this.handleGenresChange} />
                       <label htmlFor='sci-fi'>
                         Sci-fi
                       </label>
