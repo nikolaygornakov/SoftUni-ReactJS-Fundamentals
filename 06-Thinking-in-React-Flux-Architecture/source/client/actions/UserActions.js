@@ -18,8 +18,8 @@ class UserActions {
     }
 
     $.ajax(request)
-      .done(userId => {
-        this.loginUserSuccess(userId)
+      .done(data => {
+        this.loginUserSuccess(data)
       })
       .fail(err => {
         this.loginUserFail(err)
