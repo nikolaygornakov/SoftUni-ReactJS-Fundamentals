@@ -1,23 +1,35 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 
+import FooterStore from '../stores/FooterStore'
+import FooterActions from '../actions/FooterActions'
+
 export default class Footer extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      mostRecentMovies: []
-    }
-    this.getFiveRecentMovies = this.getFiveRecentMovies.bind(this)
+
+    this.state = FooterStore.getState()
+    this.onChange = this.onChange.bind(this)
   }
+
+  onChange (state) {
+    this.setState(state)
+  }
+
   componentDidMount () {
-    this.getFiveRecentMovies()
+    FooterStore.listen(this.onChange)
+
+    FooterActions.getFiveRecentMovies()
     this.interval = setInterval(() => {
-      this.getFiveRecentMovies()
+      FooterActions.getFiveRecentMovies()
     }, 3000)
   }
+
   componentWillUnmount () {
+    FooterStore.unlisten(this.onChange)
     clearInterval(this.interval)
   }
+
   getFiveRecentMovies () {
     let request = {
       method: 'get',
