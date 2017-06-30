@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 
-import Helpers from '../utilities/Helpers'
 import MovieAddStore from '../stores/MovieAddStore'
 import MovieAddActions from '../actions/MovieAddActions'
 
@@ -49,38 +48,6 @@ export default class AddMovie extends Component {
     }
   }
 
-  // handleNameChange (e) {
-  //   let name = e.target.value
-  //   this.setState({
-  //     name: name
-  //   })
-  // }
-  // handleDescriptionChange (e) {
-  //   let description = e.target.value
-  //   this.setState({
-  //     description: description
-  //   })
-  // }
-  // handleGenresChange (e) {
-  //   let genreValue = e.target.value
-  //   console.log('MovieAdd state', this.state)
-
-  //   if (this.state.genres.indexOf(genreValue) === -1) {
-  //     this.setState(prevState => {
-  //       let obj = {
-  //         genres: Helpers.appendToArray(genreValue, prevState.genres)
-  //       }
-  //       return obj
-  //     })
-  //   } else {
-  //     this.setState(prevState => {
-  //       let obj = {
-  //         genres: Helpers.removeFromArray(genreValue, prevState.genres)
-  //       }
-  //       return obj
-  //     })
-  //   }
-  // }
   render () {
     return (
       <div className='container'>
