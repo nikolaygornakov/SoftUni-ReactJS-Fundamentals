@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 
+import UserStore from '../stores/UserStore'
+import UserActions from '../actions/UserActions'
+
 import Navbar from './Navbar'
 import Footer from './Footer'
 
@@ -7,69 +10,27 @@ export default class App extends Component {
   constructor (props) {
     super(props)
 
-    this.state = {
-      loggedInUserId: ''
-    }
+    this.state = UserStore.getState()
+    this.onChange = this.onChange.bind(this)
+  }
 
-    this.LOGIN_DEFAULT_USER = this.LOGIN_DEFAULT_USER.bind(this)
+  onChange (state) {
+    this.setState(state)
   }
 
   componentDidMount () {
-    this.LOGIN_DEFAULT_USER()
+    UserStore.listen(this.onChange)
+    UserActions.loginUser()
   }
 
-  LOGIN_DEFAULT_USER () {
-    let request = {
-      url: '/user/login',
-      method: 'POST',
-      data: JSON.stringify({ username: 'admin', password: 'admin' }),
-      contentType: 'application/json'
-    }
-
-    $.ajax(request)
-      .done(userId => {
-        this.setState({
-          loggedInUserId: userId
-        })
-      })
-      .fail(err => {
-        console.log('UserMenu: err', err)
-        this.setState({
-          loggedInUserId: '',
-          message: err.responseJSON.message
-        })
-      })
-  }
-
-  logoutUser () {
-    let request = {
-      url: '/user/logout',
-      method: 'POST'
-    }
-
-    $.ajax(request)
-      .done(() => {
-        this.setState({
-          loggedInUserId: ''
-        })
-      })
-      .fail(err => {
-        this.setState({
-          error: err.responseJSON.message
-        })
-      })
+  componentWillUnmount () {
+    UserStore.unlisten(this.onChange)
   }
 
   render () {
-    let userData = {
-      loggedInUserId: this.state.loggedInUserId,
-      loginUser: this.LOGIN_DEFAULT_USER,
-      logoutUser: this.logoutUser.bind(this)
-    }
-
     return (
       <div>
-        <Navbar history={this.props.history} userData={userData} />
+        <Navbar />
         {this.props.children}
         <Footer />
       </div>
