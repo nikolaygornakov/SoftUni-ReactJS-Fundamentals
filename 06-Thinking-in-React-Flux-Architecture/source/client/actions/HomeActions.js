@@ -1,5 +1,7 @@
 import alt from '../alt'
 
+import TMDB from '../utilities/RequesterTMDB'
+
 class HomeActions {
   constructor () {
     this.generateActions(
@@ -15,20 +17,30 @@ class HomeActions {
     }
 
     $.ajax(request)
-      .done(data => {
-        let movies = []
+      .done(payload => {
+        let tmdbPromises = []
 
-        for (let movie of data) {
-          let movieData = {
-            _id: movie._id,
-            name: movie.name,
-            description: movie.description,
-            genres: movie.genres
-          }
-          movies.push(movieData)
+        for (let movie of payload) {
+          tmdbPromises.push(TMDB.getMoviePoster(movie.name))
         }
 
-        this.getTopTenMoviesSuccess(movies)
+        Promise.all(tmdbPromises)
+          .then(promises => {
+            let movies = []
+
+            for (let i = 0; i < payload.length; i += 1) {
+              let movieData = {
+                _id: payload[i]._id,
+                name: payload[i].name,
+                description: payload[i].description,
+                genres: payload[i].genres,
+                moviePosterUrl: promises[i].posterUrl
+              }
+              movies.push(movieData)
+            }
+
+            this.getTopTenMoviesSuccess(movies)
+          })
       })
       .fail(err => {
         this.getTopTenMoviesFail(err)
