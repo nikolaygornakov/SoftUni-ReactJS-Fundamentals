@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import UserStore from '../stores/UserStore'
-import UserActions from '../actions/UserActions'
+// import UserActions from '../actions/UserActions'
 
 export default class UserProfile extends Component {
   constructor (props) {
