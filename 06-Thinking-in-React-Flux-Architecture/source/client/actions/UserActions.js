@@ -19,17 +19,9 @@ class UserActions {
 
     $.ajax(request)
       .done(userId => {
-        // this.setState({
-        //   loggedInUserId: userId
-        // })
         this.loginUserSuccess(userId)
       })
       .fail(err => {
-        // console.log('UserMenu: err', err)
-        // this.setState({
-        //   loggedInUserId: '',
-        //   message: err.responseJSON.message
-        // })
         this.loginUserFail(err)
       })
 
@@ -44,16 +36,8 @@ class UserActions {
 
     $.ajax(request)
       .done(() => {
-        // this.setState({
-        //   loggedInUserId: ''
-        // })
         this.logoutUserSuccess()
       })
-      // .fail(err => {
-      //   this.setState({
-      //     error: err.responseJSON.message
-      //   })
-      // })
 
     return true
   }
