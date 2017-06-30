@@ -12,6 +12,12 @@ export default class MovieCard extends Component {
   }
 
   render () {
+    let posterNode
+    if (this.props.movie.moviePosterUrl) {
+      posterNode = (
+        <img className='media-object' src={this.props.movie.moviePosterUrl} />
+      )
+    }
     let movieGengres = this.props.movie.genres.join(' | ')
 
     return (
