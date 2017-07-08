@@ -34,7 +34,7 @@ class UserRatedMovies extends Component {
             {this.state.showRatedMoviesPanel ? 'Hide' : 'Rated Movies'}
           </a>
         </div>
-        {this.state.showRatedMoviesPanel ? <UserRatedMoviesPanel /> : null}
+        {this.state.showRatedMoviesPanel ? <UserRatedMoviesPanel movies={this.props.votes} /> : null}
       </div>
     )
   }
