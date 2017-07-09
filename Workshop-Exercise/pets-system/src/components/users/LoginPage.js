@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import FormHelpers from '../common/helpers/FormHelpers'
 import LoginForm from './LoginForm'
 
 class LoginPage extends Component {
@@ -18,18 +19,13 @@ class LoginPage extends Component {
   }
 
   handleUserChange (event) {
-    const target = event.target
-    const field = target.name
-    const value = target.value
-
-    const user = this.state.user
-    user[field] = value
-
-    this.setState({ user })
+    FormHelpers.handleFormChange.bind(this)(event, 'user')
   }
 
   handleUserLogin (event) {
     event.preventDefault()
+
+    // Validate Form...
   }
 
   render () {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import FormHelpers from '../common/helpers/FormHelpers'
 import RegisterForm from './RegisterForm'
 import UserActions from '../../actions/UserActions'
 import UserStore from '../../stores/UserStore'
@@ -36,14 +37,7 @@ class RegisterPage extends Component {
   }
 
   handleUserChange (event) {
-    const target = event.target
-    const field = target.name
-    const value = target.value
-
-    const user = this.state.user
-    user[field] = value
-
-    this.setState({user})
+    FormHelpers.handleFormChange.bind(this)(event, 'user')
   }
 
   handleUserRegistration (data) {
