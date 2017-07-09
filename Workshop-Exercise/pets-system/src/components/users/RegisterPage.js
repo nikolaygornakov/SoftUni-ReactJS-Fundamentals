@@ -87,6 +87,7 @@ class RegisterPage extends Component {
     }
 
     if (error) {
+      toastr.error(error)
       this.setState({error})
     }
 
