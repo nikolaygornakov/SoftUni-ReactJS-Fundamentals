@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import RegisterForm from './RegisterForm'
 import UserActions from '../../actions/UserActions'
 import UserStore from '../../stores/UserStore'
+import toastr from 'toastr'
 
 class RegisterPage extends Component {
   constructor (props) {
@@ -47,12 +48,19 @@ class RegisterPage extends Component {
 
   handleUserRegistration (data) {
     if (!data.success) {
-      const firstError = Object.keys(data.errors).map(k => data.errors[k])[0]
+      let firstError = data.message
+
+      if (data.errors) {
+        firstError = Object.keys(data.errors).map(k => data.errors[k])[0]
+      }
+
+      toastr.error(firstError)
 
       this.setState({
         error: firstError
       })
     } else {
+      toastr.success(data.message)
       this.props.history.push('/users/login')
     }
   }
