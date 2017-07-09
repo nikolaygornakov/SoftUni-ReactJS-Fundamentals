@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import RegisterForm from './RegisterForm'
+import UserActions from '../../actions/UserActions'
+import UserStore from '../../stores/UserStore'
 
 class RegisterPage extends Component {
   constructor (props) {
@@ -16,7 +18,20 @@ class RegisterPage extends Component {
     }
 
     this.handleUserChange = this.handleUserChange.bind(this)
+    this.handleUserForm = this.handleUserForm.bind(this)
     this.handleUserRegistration = this.handleUserRegistration.bind(this)
+
+    UserStore.on(
+      UserStore.eventTypes.USER_REGISTERED,
+      this.handleUserRegistration
+    )
+  }
+
+  componentWillUnmount () {
+    UserStore.removeListener(
+      UserStore.eventTypes.USER_REGISTERED,
+      this.handleUserRegistration
+    )
   }
 
   handleUserChange (event) {
@@ -27,11 +42,47 @@ class RegisterPage extends Component {
     const user = this.state.user
     user[field] = value
 
-    this.setState({ user })
+    this.setState({user})
   }
 
-  handleUserRegistration (event) {
+  handleUserRegistration (data) {
+    if (!data.success) {
+      const firstError = Object.keys(data.errors).map(k => data.errors[k])[0]
+
+      this.setState({
+        error: firstError
+      })
+    } else {
+      this.props.history.push('/users/login')
+    }
+  }
+
+  handleUserForm (event) {
     event.preventDefault()
+
+    if (!this.validateUser()) {
+      return
+    }
+
+    UserActions.register(this.state.user)
+  }
+
+  validateUser () {
+    const user = this.state.user
+    let formIsValid = true
+    let error = ''
+
+    if (user.password !== user.confirmPassword) {
+      error = 'Passwords do not match'
+
+      formIsValid = false
+    }
+
+    if (error) {
+      this.setState({error})
+    }
+
+    return formIsValid
   }
 
   render () {
@@ -42,8 +93,7 @@ class RegisterPage extends Component {
           user={this.state.user}
           error={this.state.error}
           onChange={this.handleUserChange}
-          onSave={this.handleUserRegistration}
-        />
+          onSave={this.handleUserForm} />
       </div>
     )
   }
