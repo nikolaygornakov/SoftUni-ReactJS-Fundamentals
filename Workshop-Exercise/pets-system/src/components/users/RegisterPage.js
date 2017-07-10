@@ -42,11 +42,7 @@ class RegisterPage extends Component {
 
   handleUserRegistration (data) {
     if (!data.success) {
-      let firstError = data.message
-
-      if (data.errors) {
-        firstError = Object.keys(data.errors).map(k => data.errors[k])[0]
-      }
+      let firstError = FormHelpers.getError(data)
 
       toastr.error(firstError)
 
