@@ -8,7 +8,17 @@ class FormHelpers {
     state[field] = value
 
     this.setState({ [stateField]: state })
-    // this.setState({state})
+  // this.setState({state})
+  }
+
+  static getError (data) {
+    let firstError = data.message
+
+    if (data.errors) {
+      firstError = Object.keys(data.errors).map(k => data.errors[k])[0]
+    }
+
+    return firstError
   }
 }
 
