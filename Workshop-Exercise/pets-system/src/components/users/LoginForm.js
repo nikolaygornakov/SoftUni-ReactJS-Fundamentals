@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Input from '../common/helpers/Input'
+import Input from '../common/forms/Input'
 
 class LoginForm extends Component {
   render () {
