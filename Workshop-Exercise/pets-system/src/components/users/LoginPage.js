@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
-import FormHelpers from '../common/helpers/FormHelpers'
+import Auth from './Auth'
+import FormHelpers from '../common/forms/FormHelpers'
 import LoginForm from './LoginForm'
+import UserActions from '../../actions/UserActions'
+import UserStore from '../../stores/UserStore'
+import toastr from 'toastr'
 
 class LoginPage extends Component {
   constructor (props) {
@@ -15,17 +19,47 @@ class LoginPage extends Component {
     }
 
     this.handleUserChange = this.handleUserChange.bind(this)
+    this.handleUserForm = this.handleUserForm.bind(this)
     this.handleUserLogin = this.handleUserLogin.bind(this)
+
+    UserStore.on(
+      UserStore.eventTypes.USER_LOGGED_IN,
+      this.handleUserLogin
+    )
+  }
+
+  componentWillUnmount () {
+    UserStore.removeListener(
+      UserStore.eventTypes.USER_LOGGED_IN,
+      this.handleUserLogin
+    )
   }
 
   handleUserChange (event) {
     FormHelpers.handleFormChange.bind(this)(event, 'user')
   }
 
-  handleUserLogin (event) {
+  handleUserForm (event) {
     event.preventDefault()
 
     // Validate Form...
+    UserActions.login(this.state.user)
+  }
+
+  handleUserLogin (data) {
+    if (!data.success) {
+      toastr.error(data.message)
+
+      this.setState({
+        error: data.message
+      })
+    } else {
+      toastr.success(data.message)
+      Auth.authenticateUser(data.token)
+      Auth.saveUser(data.user)
+
+      this.props.history.push('/')
+    }
   }
 
   render () {
@@ -35,8 +69,7 @@ class LoginPage extends Component {
         <LoginForm
           user={this.state.user}
           onChange={this.handleUserChange}
-          onSave={this.handleUserLogin}
-        />
+          onSave={this.handleUserForm} />
       </div>
     )
   }
